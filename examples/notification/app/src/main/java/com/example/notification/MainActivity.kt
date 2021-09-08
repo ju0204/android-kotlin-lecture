@@ -15,6 +15,9 @@ import android.widget.Button
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -111,27 +114,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showNotificationProgress() {
+        val progressNotificationID = myNotificationID
         val builder = NotificationCompat.Builder(this, channelID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Progress")
                 .setContentText("In progress")
                 .setProgress(100, 0, false)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_LOW)  // need to change channel importance LOW for Android 8.0 or higher.
         NotificationManagerCompat.from(this)
-                .notify(myNotificationID, builder.build())
+                .notify(progressNotificationID, builder.build())
 
-        Thread {
-            for (i in (1..100).step(10)) {
-                Thread.sleep(1000)
-                builder.setProgress(100, i, false)
-                NotificationManagerCompat.from(this)
-                        .notify(myNotificationID, builder.build())
-            }
-            builder.setContentText("Completed")
+        CoroutineScope(Dispatchers.Default).apply {
+            launch {
+                for (i in (1..100).step(10)) {
+                    Thread.sleep(1000)
+                    builder.setProgress(100, i, false)
+                    NotificationManagerCompat.from(applicationContext)
+                        .notify(progressNotificationID, builder.build())
+                }
+                builder.setContentText("Completed")
                     .setProgress(0, 0, false)
-            NotificationManagerCompat.from(this)
-                    .notify(myNotificationID, builder.build())
-        }.start()
+                NotificationManagerCompat.from(applicationContext)
+                    .notify(progressNotificationID, builder.build())
+            }
+        }
     }
 
     private fun showNotificationRegularActivity() {
