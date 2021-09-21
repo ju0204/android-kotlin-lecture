@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
-import androidx.transition.AutoTransition
-import androidx.transition.Scene
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
+import androidx.transition.*
 import com.example.animation.databinding.ActivityTransitionBinding
 
 class TransitionActivity : AppCompatActivity() {
@@ -32,8 +29,8 @@ class TransitionActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.scene_1 -> TransitionManager.go(scene1)
-            R.id.scene_2 -> TransitionManager.go(scene2)
+            R.id.scene_1 -> TransitionManager.go(scene1, ChangeBounds())
+            R.id.scene_2 -> TransitionManager.go(scene2, Fade())
         }
         return super.onOptionsItemSelected(item)
     }
