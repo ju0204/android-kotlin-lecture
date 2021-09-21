@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.LinearInterpolator
 import com.example.animation.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -49,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         // 3. Object Animator
         ObjectAnimator.ofFloat(binding.tvObjectAnimator, "translationX", 0f, 200f).apply {
             duration = 2000
+            interpolator = AccelerateInterpolator()
             start()
         }
     }
