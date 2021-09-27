@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.ViewGroup
 import androidx.transition.*
 import com.example.animation.databinding.ActivityTransitionBinding
 
@@ -30,8 +29,27 @@ class TransitionActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.scene_1 -> TransitionManager.go(scene1, ChangeBounds())
-            R.id.scene_2 -> TransitionManager.go(scene2, Fade())
+            R.id.scene_2 -> TransitionManager.go(scene2, Fade().addListener(Scene1to2TransitionListener()))
         }
         return super.onOptionsItemSelected(item)
     }
+
+    inner class Scene1to2TransitionListener : Transition.TransitionListener {
+        override fun onTransitionStart(transition: Transition) {
+        }
+
+        override fun onTransitionEnd(transition: Transition) {
+            println("onTransitionEnd ########################")
+        }
+
+        override fun onTransitionCancel(transition: Transition) {
+        }
+
+        override fun onTransitionPause(transition: Transition) {
+        }
+
+        override fun onTransitionResume(transition: Transition) {
+        }
+    }
+
 }
