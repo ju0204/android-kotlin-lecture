@@ -7,7 +7,8 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Student::class, ClassInfo::class, Enrollment::class, Teacher::class], version = 1)
+@Database(entities = [Student::class, ClassInfo::class, Enrollment::class, Teacher::class],
+    exportSchema = false, version = 1)
 abstract class MyDatabase : RoomDatabase() {
     abstract fun getMyDao() : MyDAO
 
