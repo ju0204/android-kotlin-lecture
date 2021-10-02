@@ -9,6 +9,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.FileProvider.getUriForFile
@@ -43,6 +45,18 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.download).setOnClickListener { downloadManager() }
         findViewById<Button>(R.id.openDownload).setOnClickListener { openDownload() }
         findViewById<Button>(R.id.volley).setOnClickListener { volley() }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.restApi -> startActivity(Intent(this, RestActivity::class.java))
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun javaSocket() {

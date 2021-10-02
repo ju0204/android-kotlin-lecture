@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InternetExample">
         <activity
+            android:name=".RestActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -21,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.internet_ex.file_provider"
