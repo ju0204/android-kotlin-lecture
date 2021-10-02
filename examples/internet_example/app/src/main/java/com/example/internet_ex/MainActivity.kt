@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +19,7 @@ import androidx.core.content.FileProvider.getUriForFile
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.snackbar.Snackbar
 import javax.net.SocketFactory
 import kotlinx.coroutines.*
 import retrofit2.Call
@@ -39,6 +42,11 @@ class MainActivity : AppCompatActivity() {
 
         output = findViewById(R.id.textView)
 
+        if (isNetworkAvailable())
+            Snackbar.make(output, "Network available", Snackbar.LENGTH_SHORT).show()
+        else
+            Snackbar.make(output, "Network unavailable", Snackbar.LENGTH_SHORT).show()
+
         findViewById<Button>(R.id.java_socket).setOnClickListener { javaSocket() }
         findViewById<Button>(R.id.java_http).setOnClickListener { httpLib() }
         findViewById<Button>(R.id.retrofit).setOnClickListener { retrofitWithCoroutine() }
@@ -57,6 +65,16 @@ class MainActivity : AppCompatActivity() {
             R.id.restApi -> startActivity(Intent(this, RestActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val nw = connectivityManager.activeNetwork ?: return false
+        val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+        println("${actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)}, ${actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)}, " +
+                "${actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)}")
+        return actNw.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+
     }
 
     private fun javaSocket() {
