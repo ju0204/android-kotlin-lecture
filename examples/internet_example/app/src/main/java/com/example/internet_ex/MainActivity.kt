@@ -221,10 +221,11 @@ class MainActivity : AppCompatActivity() {
             getUriForFile(this, "com.example.internet_ex.file_provider", filePath)
         // we need <provider> in AndroidManifest.xml for the getUriForFile
         println(contentUri)
-        val i = Intent()
-        i.action = Intent.ACTION_VIEW
-        i.data = contentUri
-        i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        val i = Intent().apply {
+            action = Intent.ACTION_VIEW
+            data = contentUri
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
         startActivity(i)
     }
 }
