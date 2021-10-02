@@ -67,14 +67,14 @@ class MyViewModel : ViewModel() {
             try {
                 //val c = api.contributors("square", "retrofit")
                 val repos = api.listRepos("jyheo")
-                val sb = StringBuilder()
-                for (x in repos) {
-                    sb.append(x.name)
-                    sb.append(" - ")
-                    sb.append(x.owner.login)
-                    sb.append("\n")
-                }
-                response.value = sb.toString()
+                response.value = StringBuilder().apply {
+                    repos.forEach {
+                        append(it.name)
+                        append(" - ")
+                        append(it.owner.login)
+                        append("\n")
+                    }
+                }.toString()
             } catch (e: Exception) {
                 response.value = "Failed to connect to the server"
             }
