@@ -6,7 +6,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.*
-import com.google.android.material.snackbar.Snackbar
 import java.lang.StringBuilder
 import java.util.concurrent.TimeUnit
 
@@ -42,8 +41,16 @@ class MainActivity : AppCompatActivity() {
         //val oneTimeRequest = OneTimeWorkRequest.Builder<MyWorker>()
         //        .build()
 
+        val constraints = Constraints.Builder().apply {
+            setRequiredNetworkType(NetworkType.UNMETERED) // un-metered network such as WiFi
+            setRequiresBatteryNotLow(true)
+            //setRequiresCharging(true)
+            // setRequiresDeviceIdle(true) // android 6.0(M) or higher
+        }.build()
+
         //val repeatingRequest = PeriodicWorkRequestBuilder<MyWorker>(1, TimeUnit.DAYS)
         val repeatingRequest = PeriodicWorkRequestBuilder<MyWorker>(15, TimeUnit.MINUTES)
+            .setConstraints(constraints)
             .build()
 
         val workManager = WorkManager.getInstance(this)
@@ -54,8 +61,12 @@ class MainActivity : AppCompatActivity() {
 
         workManager.getWorkInfosForUniqueWorkLiveData(MyWorker.name)
             .observe(this) { workInfo ->
-                if (workInfo[0].state == WorkInfo.State.ENQUEUED) {
-                    println("Worker enqueued!")
+                when (workInfo[0].state) {
+                    WorkInfo.State.ENQUEUED -> println("Worker enqueued!")
+                    WorkInfo.State.RUNNING -> println("Worker running!")
+                    WorkInfo.State.SUCCEEDED -> println("Worker succeeded!")  // only for one time worker
+                    WorkInfo.State.CANCELLED -> println("Worker cancelled!")
+                    else -> println(workInfo[0].state)
                 }
             }
     }
@@ -64,11 +75,5 @@ class MainActivity : AppCompatActivity() {
         val workManager = WorkManager.getInstance(this)
         // to stop the MyWorker
         workManager.cancelUniqueWork(MyWorker.name)
-        workManager.getWorkInfosForUniqueWorkLiveData(MyWorker.name)
-            .observe(this) { workInfo ->
-                if (workInfo[0].state == WorkInfo.State.CANCELLED) {
-                    println("Worker cancelled!")
-                }
-            }
     }
 }
