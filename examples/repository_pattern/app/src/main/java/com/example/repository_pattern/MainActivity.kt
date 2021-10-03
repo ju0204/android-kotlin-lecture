@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<Button>(R.id.startWorker).setOnClickListener { startWoker() }
+        findViewById<Button>(R.id.startWorker).setOnClickListener { startWorker() }
         findViewById<Button>(R.id.stopWorker).setOnClickListener { stopWorker() }
 
         myViewModel = ViewModelProvider(this, MyViewModel.Factory(this)).get(MyViewModel::class.java)
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun startWoker() {
+    private fun startWorker() {
         //val oneTimeRequest = OneTimeWorkRequest.Builder<MyWorker>()
         //        .build()
 
