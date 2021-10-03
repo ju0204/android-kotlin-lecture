@@ -35,6 +35,17 @@ class MainActivity : AppCompatActivity() {
             }.toString()
             findViewById<TextView>(R.id.textResponse).text = response
         }
+
+        WorkManager.getInstance(this).getWorkInfosForUniqueWorkLiveData(MyWorker.name)
+            .observe(this) { workInfo ->
+                when (workInfo[0].state) {
+                    WorkInfo.State.ENQUEUED -> println("Worker enqueued!")
+                    WorkInfo.State.RUNNING -> println("Worker running!")
+                    WorkInfo.State.SUCCEEDED -> println("Worker succeeded!")  // only for one time worker
+                    WorkInfo.State.CANCELLED -> println("Worker cancelled!")
+                    else -> println(workInfo[0].state)
+                }
+            }
     }
 
     private fun startWorker() {
@@ -53,27 +64,16 @@ class MainActivity : AppCompatActivity() {
             .setConstraints(constraints)
             .build()
 
-        val workManager = WorkManager.getInstance(this)
-        workManager.enqueueUniquePeriodicWork(
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             MyWorker.name,
             ExistingPeriodicWorkPolicy.KEEP,
             repeatingRequest)
 
-        workManager.getWorkInfosForUniqueWorkLiveData(MyWorker.name)
-            .observe(this) { workInfo ->
-                when (workInfo[0].state) {
-                    WorkInfo.State.ENQUEUED -> println("Worker enqueued!")
-                    WorkInfo.State.RUNNING -> println("Worker running!")
-                    WorkInfo.State.SUCCEEDED -> println("Worker succeeded!")  // only for one time worker
-                    WorkInfo.State.CANCELLED -> println("Worker cancelled!")
-                    else -> println(workInfo[0].state)
-                }
-            }
+
     }
 
     private fun stopWorker() {
-        val workManager = WorkManager.getInstance(this)
         // to stop the MyWorker
-        workManager.cancelUniqueWork(MyWorker.name)
+        WorkManager.getInstance(this).cancelUniqueWork(MyWorker.name)
     }
 }
