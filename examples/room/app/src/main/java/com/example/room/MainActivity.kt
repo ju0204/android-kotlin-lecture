@@ -1,9 +1,10 @@
 package com.example.room
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.room.databinding.ActivityMainBinding
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +17,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         myDao = MyDatabase.getDatabase(this).getMyDao()
-        runBlocking {
+
+        CoroutineScope(Dispatchers.IO).launch {
             with(myDao) {
                 insertStudent(Student(1, "james"))
                 insertStudent(Student(2, "john"))
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.queryStudent.setOnClickListener {
             val id = binding.editStudentId.text.toString().toInt()
-            runBlocking {
+            CoroutineScope(Dispatchers.IO).launch {
                 val results = myDao.getStudentsWithEnrollment(id)
                 if (results.isNotEmpty()) {
                     val str = StringBuilder().apply {
@@ -58,9 +60,13 @@ class MainActivity : AppCompatActivity() {
                             append(",")
                         }
                     }
-                    binding.textQueryStudent.text = str
+                    withContext(Dispatchers.Main) {
+                        binding.textQueryStudent.text = str
+                    }
                 } else {
-                    binding.textQueryStudent.text = ""
+                    withContext(Dispatchers.Main) {
+                        binding.textQueryStudent.text = ""
+                    }
                 }
             }
         }
@@ -69,7 +75,7 @@ class MainActivity : AppCompatActivity() {
             val id = binding.editStudentId.text.toString().toInt()
             val name = binding.editStudentName.text.toString()
             if (id > 0 && name.isNotEmpty()) {
-                runBlocking {
+                CoroutineScope(Dispatchers.IO).launch {
                     myDao.insertStudent(Student(id, name))
                 }
             }
