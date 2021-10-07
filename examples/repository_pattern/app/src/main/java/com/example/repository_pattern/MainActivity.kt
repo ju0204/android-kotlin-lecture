@@ -38,12 +38,14 @@ class MainActivity : AppCompatActivity() {
 
         WorkManager.getInstance(this).getWorkInfosForUniqueWorkLiveData(MyWorker.name)
             .observe(this) { workInfo ->
-                when (workInfo[0].state) {
-                    WorkInfo.State.ENQUEUED -> println("Worker enqueued!")
-                    WorkInfo.State.RUNNING -> println("Worker running!")
-                    WorkInfo.State.SUCCEEDED -> println("Worker succeeded!")  // only for one time worker
-                    WorkInfo.State.CANCELLED -> println("Worker cancelled!")
-                    else -> println(workInfo[0].state)
+                if (workInfo.isNotEmpty()) {
+                    when (workInfo[0].state) {
+                        WorkInfo.State.ENQUEUED -> println("Worker enqueued!")
+                        WorkInfo.State.RUNNING -> println("Worker running!")
+                        WorkInfo.State.SUCCEEDED -> println("Worker succeeded!")  // only for one time worker
+                        WorkInfo.State.CANCELLED -> println("Worker cancelled!")
+                        else -> println(workInfo[0].state)
+                    }
                 }
             }
     }
