@@ -23,10 +23,10 @@ class RemoteConfigActivity : AppCompatActivity() {
         binding.buttonFetchActivate.setOnClickListener {
             remoteConfig.fetchAndActivate()
                 .addOnCompleteListener(this) {
-                    val your_price = remoteConfig.getLong("your_price")
-                    val cheat_enabled = remoteConfig.getBoolean("cheat_enabled")
-                    binding.textYourPrice.text = your_price.toString()
-                    binding.textCheatEnabled.text = cheat_enabled.toString()
+                    val yourPrice = remoteConfig.getLong("your_price")
+                    val cheatEnabled = remoteConfig.getBoolean("cheat_enabled")
+                    binding.textYourPrice.text = yourPrice.toString()
+                    binding.textCheatEnabled.text = cheatEnabled.toString()
                 }
         }
     }
