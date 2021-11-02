@@ -62,9 +62,12 @@ class StorageActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setTitle("Choose Photo")
                 .setCursor(cursor, { _, i ->
-                    cursor?.moveToPosition(i)
-                    uploadFile(cursor?.getLong(cursor.getColumnIndex(MediaStore.Images.ImageColumns._ID)),
-                        cursor?.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME)))
+                    cursor?.run {
+                        moveToPosition(i)
+                        val idIdx = getColumnIndex(MediaStore.Images.ImageColumns._ID)
+                        val nameIdx = getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME)
+                        uploadFile(getLong(idIdx), getString(nameIdx))
+                    }
                 }, MediaStore.Images.ImageColumns.DISPLAY_NAME).create().show()
         } else {
             requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_CODE)
@@ -88,9 +91,9 @@ class StorageActivity : AppCompatActivity() {
 
     private fun uploadFile(file_id: Long?, fileName: String?) {
         file_id ?: return
-        val imageRef : StorageReference? = storage.reference.child("${UPLOAD_FOLDER}${fileName}")
+        val imageRef = storage.reference.child("${UPLOAD_FOLDER}${fileName}")
         val contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, file_id)
-        imageRef?.putFile(contentUri)?.addOnCompleteListener {
+        imageRef.putFile(contentUri).addOnCompleteListener {
             if (it.isSuccessful) {
                 // upload success
                 Snackbar.make(binding.root, "Upload completed.", Snackbar.LENGTH_SHORT).show()
