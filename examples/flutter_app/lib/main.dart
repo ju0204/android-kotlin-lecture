@@ -7,8 +7,6 @@ import 'package:flutter_app/pages/form_page.dart';
 import 'package:flutter_app/pages/list_page.dart';
 import 'package:flutter_app/app_state.dart';
 
-
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -15,7 +15,7 @@ class _ScaffoldBody extends StatelessWidget {
         Text('Name: '),
         Expanded(child: TextField(controller: textEditingController)),
       ]),
-      RaisedButton(
+      ElevatedButton(
           child: Text("Change"),
           onPressed: () {
             if (textEditingController.text.isEmpty) {

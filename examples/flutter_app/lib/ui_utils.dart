@@ -9,7 +9,7 @@ Future<void> showCustomDialog(context, title, msg) {
         title: Text(title),
         content: Text(msg),
         actions: [
-          RaisedButton(
+          ElevatedButton(
             child: Text('OK'),
             onPressed: () {
               Navigator.of(context).pop();
@@ -22,6 +22,5 @@ Future<void> showCustomDialog(context, title, msg) {
 }
 
 void showCustomSnackBar(context, String msg) {
-  Scaffold.of(context).showSnackBar(
-      SnackBar(content: Text(msg)));
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
 }

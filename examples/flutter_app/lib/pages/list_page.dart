@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/ui_utils.dart';
 
 _tile(context, icon, title) => ListTile(
-  leading: Icon(icon),
-  title: Text(title),
-  subtitle: Text('subtitle $title'),
-  onTap: () => showCustomDialog(context, "Item", title),
-);
+      leading: Icon(icon),
+      title: Text(title),
+      subtitle: Text('subtitle $title'),
+      onTap: () => showCustomDialog(context, "Item", title),
+    );
 
 class _ScaffoldBody extends StatelessWidget {
   @override
@@ -28,8 +28,6 @@ class ListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(menu_name)),
-        body: _ScaffoldBody()
-    );
+        appBar: AppBar(title: Text(menu_name)), body: _ScaffoldBody());
   }
 }

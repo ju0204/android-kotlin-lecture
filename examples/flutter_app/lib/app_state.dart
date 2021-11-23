@@ -22,6 +22,7 @@ class AppState extends ChangeNotifier {
   }
 
   String get currentUser => _currentUser;
+
   set currentUser(name) {
     _currentUser = name;
     SharedPreferences.getInstance().then((prefs) {
