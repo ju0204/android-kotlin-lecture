@@ -9,6 +9,7 @@ class _ScaffoldBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     textEditingController.text = Provider.of<AppState>(context).currentUser;
+    var appState = Provider.of<AppState>(context);
 
     return Column(children: [
       Row(children: [
@@ -22,8 +23,7 @@ class _ScaffoldBody extends StatelessWidget {
               showCustomSnackBar(context, "Empty Name!");
               return;
             }
-            Provider.of<AppState>(context, listen: false).currentUser =
-                textEditingController.text;
+            appState.currentUser = textEditingController.text;
             Navigator.pop(context);
           })
     ]);

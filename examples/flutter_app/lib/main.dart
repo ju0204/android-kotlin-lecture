@@ -27,4 +27,5 @@ class MyApp extends StatelessWidget {
 void main() => runApp(ChangeNotifierProvider(
     // MyApp() 포함하여 자손 위젯들에게 AppState()를 제공
     create: (context) => AppState(),
+    lazy: false, // create AppState right now.
     child: MyApp()));
