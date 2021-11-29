@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/gesture_page.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_app/pages/start_page.dart';
 import 'package:flutter_app/pages/image_page.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
         FormPage.nav_url: (context) => FormPage(),
         ImagePage.nav_url: (context) => ImagePage(),
         ListPage.nav_url: (context) => ListPage(),
+        GesturePage.nav_url: (context) => GesturePage(),
       },
     );
   }
