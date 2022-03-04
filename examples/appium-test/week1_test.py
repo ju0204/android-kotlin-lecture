@@ -10,7 +10,7 @@ ANDROID_BASE_CAPS = {
     'app': APP_LOCATION,
     'automationName': 'UIAutomator2',
     'platformName': 'Android',
-    'platformVersion': '6.0',
+    'platformVersion': '12.0',
     'deviceName': 'Android Emulator',
 }
 
