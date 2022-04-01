@@ -39,7 +39,7 @@ class CheckHW():
             if button.text == std_number:
                 for i in range(click_num):
                     button.click()
-                if button.text == f'TEST {click_num}':
+                if button.text == f'TEST {click_num}' or button.text == f'TEST{click_num}':
                     return 'OK'
                 else:
                     return '버튼 클릭 번호 오류'
