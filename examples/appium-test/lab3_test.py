@@ -1,5 +1,8 @@
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 import time
 
 class CheckHW():
@@ -34,7 +37,9 @@ class CheckHW():
         textview_text = {'en':'Android Programming', 'ko':'안드로이드 프로그래밍'}
         
         try:
-            textView = self.driver.find_element(AppiumBy.ID, 'textView')
+            wait = WebDriverWait(self.driver, 10)
+            textView = wait.until(EC.visibility_of_element_located((By.ID, 'textView')))
+            # textView = self.driver.find_element(AppiumBy.ID, 'textView')
         except:
             return '텍스트뷰 ID가 textView가 아님'
             
@@ -91,22 +96,34 @@ class CheckHW():
             
 
 
+def test_week6_lab3(appLocation, android_version):
+    print('Test for English')
+    chw = CheckHW(appLocation, android_version, 'en', 'US')
+    r = [chw.test_week6_lab3_1(),
+         chw.test_week6_lab3_2(dog_cat = True),
+         chw.test_week6_lab3_2(dog_cat = False)]
+    print('test1,2,3:', r)
+    del chw
+    
+    print('Test for Korean')
+    chw = CheckHW(appLocation, android_version, 'ko', 'KR')
+    rk = [chw.test_week6_lab3_1('ko'),
+          chw.test_week6_lab3_2(lang='ko', dog_cat = True),
+          chw.test_week6_lab3_2(lang='ko', dog_cat = False)]
+    print('test4,5,6:', rk)
+    
+    score = sum([15 for x in r if x == 'OK']) + sum([15 for x in rk if x == 'OK'])
+    if score == 15 * 6:
+        score = 100
+    
+    return (score, ','.join(r) + ',' + ','.join(rk))
+
 
 if __name__ == '__main__':
     # 테스트할 APK 파일의 위치
     DEF_APP_LOCATION = r'C:\Users\jyheo\AndroidStudioProjects\lab3\app\build\intermediates\apk\debug\app-debug.apk'
-    ANDROID_VERSION = '11.0'
+    ANDROID_VERSION = '12.0'
 
-    print('Test for English')
-    chw = CheckHW(DEF_APP_LOCATION, ANDROID_VERSION, 'en', 'US')
-    print('test1:', chw.test_week6_lab3_1())
-    print('test2:', chw.test_week6_lab3_2(dog_cat = True))
-    print('test3:', chw.test_week6_lab3_2(dog_cat = False))
-    del chw
-    
-    print('Test for Korean')
-    chw = CheckHW(DEF_APP_LOCATION, ANDROID_VERSION, 'ko', 'KR')
-    print('test1:', chw.test_week6_lab3_1('ko'))
-    print('test2:', chw.test_week6_lab3_2(lang='ko', dog_cat = True))
-    print('test3:', chw.test_week6_lab3_2(lang='ko', dog_cat = False))
+    score, result = test_week6_lab3(DEF_APP_LOCATION, ANDROID_VERSION)
+    print(score, result)
 
