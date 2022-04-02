@@ -72,6 +72,7 @@ class _Drawer extends StatelessWidget {
 class _ScaffoldBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Future<dynamic> ret;
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -84,6 +85,11 @@ class _ScaffoldBody extends StatelessWidget {
             child: Text('Show AlertDialog'),
             onPressed: () => showCustomDialog(context, "Alert Dialog",
                 "This is the message of this Dialog.")),
+        ElevatedButton(
+            child: Text('Show AlertDialog with StatefulBuilder'),
+            onPressed: () { ret = showCustomRadioDialog(context, "Alert Dialog with Radio",
+                "This is the message of this Dialog.");
+            ret.then((value) => showCustomSnackBar(context, 'return value ${value}' )); }),
       ],
     ));
   }
