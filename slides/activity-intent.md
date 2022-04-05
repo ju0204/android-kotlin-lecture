@@ -123,7 +123,7 @@ https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_in
 
 
 ## 인텐트로 액티비티 시작하기
-- startActivity()나 startActivityForResult() 메소드를 사용하여 다른 액티비티를 시작할 수 있음
+- startActivity() 메소드를 사용하여 다른 액티비티를 시작할 수 있음
     ```kotlin
     val intent = Intent(this, SecondActivity::class.java)
     startActivity(intent)
@@ -132,8 +132,9 @@ https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_in
         - 이렇게 명시적으로 액티비티 클래스를 지정하는 것을 **명시적 인텐트** 라고 함
     - startActivity()에 인텐트 객체를 인자로 해서 호출
 - startActivity() 메소드는 액티비티나 서비스에서 사용 가능
-- startActivityForResult() 는 액티비티에서만 사용 가능
-    - 다른 액티비티로부터 결과를 인텐트로 받을 수 있음
+- 시작한 액티비티로부터 결과를 받으려면 다른 방법 사용
+    - registerForActivityResult() 사용
+    - 참고: startActivityForResult() 는 deprecated 되어서 사용 중단
 
 
 ## 인텐트 유형
@@ -178,13 +179,27 @@ https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_in
 
 
 ## (명시적) 인텐트에 데이터 넣어서 보내고 받기
+- MainActivity의 onCreate() 에서 액티비티 결과를 받을 콜백 등록
+    ```kotlin
+        val activityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val msg = it.data?.getStringExtra("ResultString") ?: ""
+            Snackbar.make(binding.root, "ActivityResult:${it.resultCode} $msg", Snackbar.LENGTH_SHORT).show()
+            Log.i(TAG, "ActivityResult:${it.resultCode} $msg")
+        }
+    ```
 - MainActivity에서 ThirdActivity로 인텐트를 보내고 결과 인텐트를 기다려서 받기
     ```kotlin
         // 인텐트를 ThirdActivity로 보내기
         val intent = Intent(this, ThirdActivity::class.java)
     →   intent.putExtra("UserDefinedExtra", "Hello")
-    →   startActivityForResult(intent, request_code)
+    →   activityResult.launch(intent)
     ```
+
+
+MainActivity에서 registerForActivityResult()로 콜백 등록하고, launch()를 하면 ThirdActivity가 시작된다.
+ThirdActivity는 받은 intent에서 데이터를 가져온다.
+
+---
 - ThirdActivity 에서 MainActivity가 보낸 인텐트 받기
     ```kotlin
     class ThirdActivity : AppCompatActivity() {
@@ -196,11 +211,6 @@ https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_in
             et.setText(msg)
         }
     ```
-
-MainActivity에서 startActivityForResult()를 호출하면 ThirdActivity가 시작된다.
-ThirdActivity는 받은 intent에서 데이터를 가져온다.
-
----
 - ThirdActivity 에서 결과 인텐트 되돌려 주기
     ```kotlin
     override fun onBackPressed() {
@@ -211,24 +221,14 @@ ThirdActivity는 받은 intent에서 데이터를 가져온다.
         super.onBackPressed()
     }
     ```
-- MainActivity에서 결과 인텐트 받기
-    ```kotlin
-    →override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    →   if (requestCode == request_code) {
-    →       val msg = data?.getStringExtra("ResultString") ?: ""
-            Snackbar.make(binding.root, "ActivityResult:$resultCode $msg",
-                          Snackbar.LENGTH_SHORT).show()
-            Log.i(TAG, "ActivityResult:$resultCode $msg")
-        }
-    }
-    ```
+
+
 
 https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_intent/app/src/main/java/com/example/activity_intent/MainActivity.kt
 
 https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_intent/app/src/main/java/com/example/activity_intent/ThirdActivity.kt
 
-ThirdActivity가 리턴할 인텐트(resultIntent)를 만들고 setResult() 메소드로 전달한다. MainActivity는 onActivityResult() 메소드를 통해 resultIntent를 받게 된다.
+ThirdActivity가 리턴할 인텐트(resultIntent)를 만들고 setResult() 메소드로 전달한다. MainActivity에서 등록한 콜백을 통해 resultIntent를 받게 된다.
 
 
 ---
