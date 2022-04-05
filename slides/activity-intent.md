@@ -170,7 +170,16 @@ https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_in
         </intent-filter>
     </activity>
     ```
-    - ACTION_DIAL 암시적 인텐트로 startActvity()를 하면 기존 전화 앱과 SecondActivity를 선택하는 창이 나타남
+    - ACTION_DIAL 로 startActvity()를 하면 기존 전화 앱과 SecondActivity를 선택하는 창이 나타남
+- 참고: MAIN, 앱을 실행할 때 처음 시작하는 액티비티
+    ```xml
+    <activity android:name=".MainActivity" android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+    ```
 
 ![bg right:30% w:80%](images/activity/dial-select.png)
 
