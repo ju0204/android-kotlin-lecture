@@ -11,7 +11,6 @@ import com.example.activity_intent.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var viewModel: MyViewModel
     private lateinit var binding: ActivityMainBinding
     private var count = 0
 
@@ -46,7 +45,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         // ViewModel
-        viewModel = ViewModelProvider(this).get(MyViewModel::class.java)
+        val viewModel = ViewModelProvider(this)[MyViewModel::class.java]
+
         binding.textViewCount.text = getString(R.string.count_in_activity, count)
         binding.textViewCountViewmodel.text = getString(R.string.count_in_ViewModel, viewModel.count)
         viewModel.countLivedata.observe(this) {
