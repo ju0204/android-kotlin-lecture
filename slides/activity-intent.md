@@ -356,7 +356,6 @@ ViewModel과 꼭 같이 써야 하는 것은 아니다.
 - MyViewModel의 countLivedata에 observe() 메소드를 호출하여 콜백 함수 등록
     ```kotlin
     class MainActivity : AppCompatActivity() {
-        private lateinit var viewModel: MyViewModel
         private lateinit var binding: ActivityMainBinding
 
         override fun onCreate(savedInstanceState: Bundle?) {
@@ -365,7 +364,7 @@ ViewModel과 꼭 같이 써야 하는 것은 아니다.
             setContentView(binding.root)
 
             // ViewModel
-            viewModel = ViewModelProvider(this).get(MyViewModel::class.java)
+            val viewModel = ViewModelProvider(this)[MyViewModel::class.java]
             viewModel.countLivedata.observe(this) {
                 binding.textViewLivedata.text = getString(R.string.count_in_ViewModel_LiveData, it)
             }
@@ -387,3 +386,41 @@ https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_in
 
 https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_intent/app/src/main/java/com/example/activity_intent/MainActivity.kt#L40-L53
 
+
+
+## 초기값을 받는 ViewModel 만들기
+- 아래와 같이 생성자 인자를 받아서 초기값을 주고 싶은 경우
+    ```kotlin
+    class MyViewModel(count: Int) : ViewModel() {
+        val countLivedata: MutableLiveData<Int> = MutableLiveData<Int>()
+        init {
+            countLivedata.value = count
+        }
+        fun increaseCount() {
+            countLivedata.value = (countLivedata.value ?: 0) + 1
+        }
+    }
+    ```
+- ViewModelProvider로 ViewModel을 생성, 생성자 인자를 줄 방법이 없음
+    - ```val viewModel = ViewModelProvider(this)[MyViewModel::class.java]```
+
+
+## 초기값을 받는 ViewModel을 위해 ViewModelProvider.Factory
+- ViewModelProvider.Factory로 생성자 인자를 받을 수 있는 커스텀 ViewModelProvider를 생성
+    ```kotlin
+    class MyViewModelFactory(private val count: Int) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(MyViewModel::class.java)) {
+                return MyViewModel(count) as T  // the warning 'unchecked cast' is unavoidable.
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
+    }
+    ```
+- 사용은 다음과 같이, 생성자 인자로 10이 MyViewModel에 주어짐
+    ```
+    viewModel = ViewModelProvider(this, MyViewModelFactory(10)).get(MyViewModel::class.java)
+    ```
+
+# Q&A
+<!-- _class: lead -->
