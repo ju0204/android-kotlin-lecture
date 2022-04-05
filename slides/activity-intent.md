@@ -49,7 +49,7 @@ backgroundImage: url('images/background.png')
     ```xml
     <manifest>
         <application>
-            <activity android:name=".MainActivity">
+            <activity android:name=".MainActivity" android:exported="true">
             </activity>
         </application>
     </manifest>
@@ -60,6 +60,8 @@ https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_in
 https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_intent/app/src/main/AndroidManifest.xml
 
 원래는 MainActivity가 Activity 클래스를 상속해서 만들어지지만, 이전 버전과 호환이 되면서 새로운 기능을 제공하는 Jetpack의 AppCompatActivity를 사용하는 것을 권장한다.
+
+android:exported는 다른 앱에서 이 액티비티를 사용할 수 있도록 하는지 여부를 표시함. 런처 액티비티의 경우 외부에서 실행시켜야 하므로 exported를 반드시 true하고, 다른 액티비티들은 외부에서 사용할 일이 없는 경우 안전을 위해 false로 할 것.
 
 참고: 안드로이드 Jetpack 라이브러리 https://developer.android.com/jetpack?hl=ko
 
