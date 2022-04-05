@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import com.example.activity_intent.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
@@ -31,10 +32,17 @@ class MainActivity : AppCompatActivity() {
             startActivity(implicitIntent)
         }
 
+        val activityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val msg = it.data?.getStringExtra("ResultString") ?: ""
+            Snackbar.make(binding.root, "ActivityResult:${it.resultCode} $msg", Snackbar.LENGTH_SHORT).show()
+            Log.i(TAG, "ActivityResult:${it.resultCode} $msg")
+        }
+
         binding.buttonThirdActivity.setOnClickListener {
             val intent = Intent(this, ThirdActivity::class.java)
             intent.putExtra("UserDefinedExtra", "Hello")
-            startActivityForResult(intent, request_code)
+            // startActivityForResult(intent, request_code) // Deprecated
+            activityResult.launch(intent)
         }
 
         // ViewModel
@@ -53,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /* Deprecated
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == request_code) {
@@ -60,7 +69,7 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(binding.root, "ActivityResult:$resultCode $msg", Snackbar.LENGTH_SHORT).show()
             Log.i(TAG, "ActivityResult:$resultCode $msg")
         }
-    }
+    } */
 
     override fun onStart() {
         super.onStart()
