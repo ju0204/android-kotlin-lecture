@@ -318,7 +318,7 @@ https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_in
             setContentView(binding.root)
 
             // ViewModel
-            viewModel = ViewModelProvider(this).get(MyViewModel::class.java) // 뷰 모델 획득
+            viewModel = ViewModelProvider(this)[MyViewModel::class.java] // 뷰 모델 획득
             binding.textViewCountViewmodel.text = getString(R.string.count_in_ViewModel, viewModel.count)
 
             binding.buttonIncr.setOnClickListener {
