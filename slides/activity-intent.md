@@ -302,9 +302,7 @@ https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_in
         }
     }
     ```
-    - ViewModel 객체는 직접 생성하지 않고 반드시 ViewModelProvider의 get() 메소드를 이용해야 함
-    - ViewModel/ViewModelProvider를 사용하기 위해 모듈의 **build.gradle에 다음을 추가**
-    - ```implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'```
+    - ViewModel 객체는 직접 생성하지 않고 반드시 ViewModelProvider를 이용해야 함
     - ViewModel에 생성자 인자를 추가하려면 ViewModelFactory도 만들어서 사용해야 함
 
 ---
