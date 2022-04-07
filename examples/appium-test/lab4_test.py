@@ -92,6 +92,14 @@ if __name__ == '__main__':
     # 테스트할 APK 파일의 위치
     DEF_APP_LOCATION = r'C:\Users\jyheo\AndroidStudioProjects\Lab4Application\app\build\intermediates\apk\debug\app-debug.apk'
     ANDROID_VERSION = '12.0'
+    
+    print('''
+    1. Appium 서버는 실행 했나요?
+    2. 에뮬레이터를 실행하거나 디바이스를 연결 했나요?
+    3. 에뮬레이터는 정상적으로 동작 중인가요? 에뮬레이터가 멈춰있다면 cold boot하세요.
+    4. DEF_APP_LOCATION은 본인의 app-debug.apk를 제대로 가리키고 있나요?
+    5. ANDROID_VERSION은 에뮬레이터나 디바이스의 안드로이드 버전과 일치하나요?
+    ''')
 
     chw = CheckHW(DEF_APP_LOCATION, ANDROID_VERSION)
     score, r = chw.test_lab4(1234, 3, 2)
