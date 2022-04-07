@@ -79,7 +79,7 @@ android:exported는 다른 앱에서 이 액티비티를 사용할 수 있도록
 - onCreate()
 - onStart()
 - onResume()
-- 액티비티 활성황
+- 액티비티 활성화
 - onPause()
 - onStop()
 - onDestroy()
