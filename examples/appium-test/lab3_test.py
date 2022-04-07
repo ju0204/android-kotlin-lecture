@@ -31,6 +31,10 @@ class CheckHW():
             desired_capabilities=self.ANDROID_BASE_CAPS
         )
         self.driver.implicitly_wait(10)
+
+
+    def press_home(self):
+        self.driver.press_keycode(3) # keycode HOME
  
 
     def test_week6_lab3_1(self, lang='en'):

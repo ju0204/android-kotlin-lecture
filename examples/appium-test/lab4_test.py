@@ -29,6 +29,10 @@ class CheckHW():
         self.driver.implicitly_wait(10)
  
 
+    def press_home(self):
+        self.driver.press_keycode(3) # keycode HOME
+
+
     def test_lab4(self, number=123, inc=2, dec=1):
         wait = WebDriverWait(self.driver, 10)
 
