@@ -29,11 +29,13 @@ class CheckHW():
         self.driver.press_keycode(3) # keycode HOME
 
 
-    def test_lab2(self, filepath):
+    def test_lab2(self, filepath, filepath2):
         try:
+            self.driver.save_screenshot(filepath)
             #swipe(startX, startY, endX, endY, duration)
-            self.driver.swipe(150, 600, 150, 100, 500)
-            return self.driver.save_screenshot(filepath)
+            self.driver.swipe(150, 600, 150, 100, 100)
+            self.driver.swipe(150, 600, 150, 100, 100)
+            return self.driver.save_screenshot(filepath2)
         except:
             return False
 
@@ -45,6 +47,6 @@ if __name__ == '__main__':
     ANDROID_VERSION = '12.0'
 
     chw = CheckHW(DEF_APP_LOCATION, ANDROID_VERSION)
-    r = chw.test_lab2('screeshot.png')
+    r = chw.test_lab2('screeshot.png', 'screenshot2.png')
     print(r)
 
