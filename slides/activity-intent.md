@@ -162,7 +162,7 @@ https://github.com/jyheo/android-kotlin-lecture/blob/master/examples/activity_in
 - 암시적 인텐트를 받기 위해서는 받으려는 액션과 데이터 스키마를 지정해주면 됨
 - AndroidManifest.xml에 인텐트 필터를 추가
     ```xml
-    <activity android:name=".SecondActivity">
+    <activity android:name=".SecondActivity" android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.DIAL" />
             <category android:name="android.intent.category.DEFAULT" />
