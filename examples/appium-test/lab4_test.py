@@ -82,9 +82,9 @@ class CheckHW():
             return 'ID가 editText인 에디트텍스트를 찾을 수 없음'
 
         if editText.text == f'{result_number}':
-            return 100, 'OK'
+            return 'OK'
         else:
-            return 0, f'결과 숫자가 틀림, {result_number} 가 아님'
+            return f'결과 숫자가 틀림, {result_number} 가 아님'
        
 
 
@@ -102,6 +102,10 @@ if __name__ == '__main__':
     ''')
 
     chw = CheckHW(DEF_APP_LOCATION, ANDROID_VERSION)
-    score, r = chw.test_lab4(1234, 3, 2)
+    r = chw.test_lab4(1234, 3, 2)
+    if r == 'OK':
+        score = 100
+    else:
+        score = 0
     print(score, r)
 
