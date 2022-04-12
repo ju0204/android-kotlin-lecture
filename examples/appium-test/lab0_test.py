@@ -12,7 +12,9 @@ class CheckHW():
         'platformVersion': '12.0',  # platform version of emulator or device where app will be tested
         'deviceName': 'Android Emulator',
         'allowTestPackages': 'true',  # add -t flags to adb command when install the app package
-        'enforceAppInstall' : 'true'
+        'enforceAppInstall' : 'true',
+        'uiautomator2ServerInstallTimeout' : 20000,
+        'adbExecTimeout' : 20000
     }
 
     def __init__(self, appLocation, platformVersion = '12.0'):

@@ -16,6 +16,8 @@ class CheckHW():
         'deviceName': 'Android Emulator',
         'allowTestPackages': 'true',  # add -t flags to adb command when install the app package
         'enforceAppInstall' : 'true',
+        'uiautomator2ServerInstallTimeout' : 20000,
+        'adbExecTimeout' : 20000,
         'language' : 'ko',
         'locale' : 'KR'
     }
