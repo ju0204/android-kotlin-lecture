@@ -26,11 +26,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        with (supportFragmentManager.beginTransaction()) {
-            setReorderingAllowed(true)
-            add(R.id.fragment, ExampleFragment2::class.java, null)
-        }.commit()
-
         binding.buttonReplace.setOnClickListener {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
