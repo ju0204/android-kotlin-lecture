@@ -1,9 +1,5 @@
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-import time
 
 class CheckHW():
     MAIN_ACTIVITY = '.MainActivity'
@@ -60,19 +56,23 @@ class CheckHW():
             self.err_str.append(f'ID {widget_ID}의 텍스트가 {text_wanted}가 아님')
 
 
-    def test_lab6(self):
+    def test_lab6(self, title, message):
         self.err_str = []
 
         self.open_nav_drawer('page1Fragment')
         self.check_text('textView', 'Page1Fragment')
 
         self.open_nav_drawer('myDialogFragment')
-        self.check_text('android:id/alertTitle', 'Dialog Title')
+        self.check_text('android:id/alertTitle', title)
+        self.check_text('android:id/message', message)
         try:
             ok = self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@text="OK"]') #android:id/button1')
             ok.click()
         except:
             self.err_str.append('OK 버튼을 찾을 수 없음')
+
+        self.open_nav_drawer('page2Fragment')
+        self.check_text('textView', 'Page2Fragment')
 
         return self.err_str
 
@@ -90,7 +90,7 @@ if __name__ == '__main__':
     ''')
 
     chw = CheckHW(DEF_APP_LOCATION, ANDROID_VERSION)
-    r = chw.test_lab6()
+    r = chw.test_lab6('123456', '홍길동')  # 학번, 이름
     if len(r) == 0:
         score = 100
     else:
