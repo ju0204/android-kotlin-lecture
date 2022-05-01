@@ -52,6 +52,7 @@ class CheckHW():
             return 'tvTitle의 내용이 Home이 아님'
             
         button.click()
+        time.sleep(1)
         
         # Nav1 fragment
         try:
@@ -67,6 +68,7 @@ class CheckHW():
             return 'tvTitle의 내용이 Nav1이 아님'
             
         button.click()
+        time.sleep(1)
         
         # Nav2 fragment
         try:
@@ -82,6 +84,7 @@ class CheckHW():
             return 'tvTitle의 내용이 Nav2가 아님'
             
         button.click()
+        time.sleep(1)
         
         # Home fragment
         try:
@@ -90,6 +93,7 @@ class CheckHW():
             return 'ID가 button인 버튼을 찾을 수 없음'
             
         button.click()
+        time.sleep(1)
         
         # Nav1 fragment
         try:
@@ -105,6 +109,7 @@ class CheckHW():
             return 'textView의 내용이 4가 아님'
         
         self.driver.press_keycode(4)  # Back key
+        time.sleep(1)
         
         # Home fragment
         try: 
@@ -115,6 +120,7 @@ class CheckHW():
             return 'tvTitle의 내용이 Home이 아님 - Home으로 되돌아가지 않음'
             
         self.driver.press_keycode(4)  # Back key
+        time.sleep(1)
               
         try:
             button = wait.until(EC.element_to_be_clickable((By.ID, 'button')))
