@@ -56,6 +56,20 @@ class CheckHW():
 
         if title.text != text_wanted:
             self.err_str.append(f'ID {widget_ID}의 텍스트가 {text_wanted}가 아님')
+            
+            
+    def check_text2(self, widget_ID, widget_ID2, text_wanted):
+        try:
+            title = self.driver.find_element(AppiumBy.ID, widget_ID)
+        except:
+            try:
+                title = self.driver.find_element(AppiumBy.ID, widget_ID2)
+            except:
+                self.err_str.append(f'{widget_ID} 또는 {widget_ID2} ID를 찾을 수 없음')
+                return
+
+        if title.text != text_wanted:
+            self.err_str.append(f'ID {widget_ID} 또는 {widget_ID2}의 텍스트가 {text_wanted}가 아님')
 
 
     def test_lab6(self, title, message):
@@ -65,8 +79,8 @@ class CheckHW():
         self.check_text('textView', 'Page1Fragment')
 
         self.open_nav_drawer('myDialogFragment')
-        self.check_text('android:id/alertTitle', title)
-        self.check_text('android:id/message', message)
+        self.check_text2('alertTitle', 'android:id/alertTitle', title)
+        self.check_text2('android:id/message', 'message', message)
         try:
             ok = self.driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@text="OK"]') #android:id/button1')
             ok.click()
