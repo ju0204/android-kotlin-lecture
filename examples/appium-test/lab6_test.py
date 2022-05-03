@@ -13,7 +13,9 @@ class CheckHW():
         'allowTestPackages': 'true',  # add -t flags to adb command when install the app package
         'enforceAppInstall' : 'true',
         'uiautomator2ServerInstallTimeout' : 20000,
-        'adbExecTimeout' : 20000
+        'adbExecTimeout' : 20000,
+        'language' : 'en',
+        'locale' : 'US'
     }
 
     def __init__(self, appLocation, platformVersion = '12.0'):
