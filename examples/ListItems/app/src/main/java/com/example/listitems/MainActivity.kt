@@ -30,7 +30,12 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.setHasFixedSize(true)
 
         viewModel.itemsListData.observe(this) {
-            adapter.notifyDataSetChanged()
+            //adapter.notifyDataSetChanged()
+            when(viewModel.itemsEvent) {
+                ItemEvent.ADD -> adapter.notifyItemInserted(viewModel.itemsEventPos)
+                ItemEvent.UPDATE -> adapter.notifyItemChanged(viewModel.itemsEventPos)
+                ItemEvent.DELETE -> adapter.notifyItemRemoved(viewModel.itemsEventPos)
+            }
         }
 
         viewModel.itemClickEvent.observe(this) {
