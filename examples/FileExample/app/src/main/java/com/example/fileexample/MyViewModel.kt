@@ -50,7 +50,7 @@ class MyViewModel(context: Context) : ViewModel() {
 }
 
 class MyViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(MyViewModel::class.java))
             MyViewModel(context) as T
         else
