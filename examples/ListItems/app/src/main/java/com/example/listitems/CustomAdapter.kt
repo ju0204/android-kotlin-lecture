@@ -15,13 +15,13 @@ class CustomAdapter(private val viewModel: MyViewModel) :
                 binding.textView.text = firstName
                 binding.textView2.text = lastName
             }
-            binding.root.setOnClickListener {
+            /*binding.root.setOnClickListener {
                 viewModel.itemClickEvent.value = adapterPosition
             }
             binding.root.setOnLongClickListener {
                 viewModel.itemLongClick = adapterPosition
                 false // for context menu
-            }
+            }*/
         }
     }
 
@@ -29,7 +29,15 @@ class CustomAdapter(private val viewModel: MyViewModel) :
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(viewGroup.context)
         val binding = ItemLayoutBinding.inflate(layoutInflater, viewGroup, false)
-        return ViewHolder(binding)
+        val viewHolder = ViewHolder(binding)
+        binding.root.setOnClickListener {
+            viewModel.itemClickEvent.value = viewHolder.adapterPosition
+        }
+        binding.root.setOnLongClickListener {
+            viewModel.itemLongClick = viewHolder.adapterPosition
+            false // for context menu
+        }
+        return viewHolder
     }
 
     // ViewHolder 에 데이터 쓰기
