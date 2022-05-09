@@ -10,16 +10,16 @@ class CustomAdapter(private val viewModel: MyViewModel) :
 
     inner class ViewHolder(private val binding: ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun setContents(pos: Int) {
-            with (viewModel.items[pos]) {
+            with (viewModel.getItem(pos)) {
                 binding.imageView.setImageResource(MyViewModel.icons[icon] ?: R.drawable.ic_baseline_person_24)
                 binding.textView.text = firstName
                 binding.textView2.text = lastName
             }
             binding.root.setOnClickListener {
-                viewModel.itemClickEvent.value = pos
+                viewModel.itemClickEvent.value = adapterPosition
             }
             binding.root.setOnLongClickListener {
-                viewModel.itemLongClick = pos
+                viewModel.itemLongClick = adapterPosition
                 false // for context menu
             }
         }
@@ -37,5 +37,5 @@ class CustomAdapter(private val viewModel: MyViewModel) :
         viewHolder.setContents(position)
     }
 
-    override fun getItemCount() = viewModel.items.size
+    override fun getItemCount() = viewModel.itemsSize
 }

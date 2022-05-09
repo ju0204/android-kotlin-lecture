@@ -27,7 +27,7 @@ class ItemDialog(private val itemPos: Int = -1): BottomSheetDialogFragment() {
         binding.spinner.adapter = adapter
 
         if (itemPos >= 0) {
-            with (viewModel.items[itemPos]) {
+            with (viewModel.getItem(itemPos)) {
                 val i = MyViewModel.icons.keys.toList().indexOf(icon)
                 binding.spinner.setSelection(i)
                 binding.editTextFirstName.setText(firstName)
