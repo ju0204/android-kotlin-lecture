@@ -2,6 +2,7 @@ from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
 from appium.webdriver.common.touch_action import TouchAction
 import time
+import sys, os
 
 class CheckHW():
     MAIN_ACTIVITY = '.MainActivity'
@@ -154,6 +155,10 @@ if __name__ == '__main__':
     # 테스트할 APK 파일의 위치
     DEF_APP_LOCATION = r'C:\Users\jyheo\AndroidStudioProjects\Lab7\app\build\intermediates\apk\debug\app-debug.apk'
     ANDROID_VERSION = '12.0'
+    if len(sys.argv) >= 2: # apk 파일을 명령줄 인자로 받을 수 있도록
+        if sys.argv[1][-3:] == 'apk':
+            DEF_APP_LOCATION = os.path.abspath(sys.argv[1])
+            print('Test with ' + DEF_APP_LOCATION)
     
     print('''
     1. Appium 서버는 실행 했나요?
