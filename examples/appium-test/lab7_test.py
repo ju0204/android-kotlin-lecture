@@ -1,6 +1,7 @@
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
 from appium.webdriver.common.touch_action import TouchAction
+import time
 
 class CheckHW():
     MAIN_ACTIVITY = '.MainActivity'
@@ -140,8 +141,10 @@ class CheckHW():
 
         if not self.update_item(0, 'android12'): return False
         items[0] = 'android12'
+        time.sleep(1)  # 리싸이클러 뷰 항목이 업데이트될 때 뷰홀더가 바뀌는데, 이 작업이 정상 완료될때까지 잠시 기다림
         if not self.delete_item(1): return False
         del items[1]
+        time.sleep(1)
 
         print(items)
         return self.check_list_items(items)
