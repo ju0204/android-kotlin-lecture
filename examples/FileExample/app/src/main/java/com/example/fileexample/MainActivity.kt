@@ -4,18 +4,15 @@ import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.fragment.app.DialogFragment
 import androidx.preference.PreferenceManager
 import com.example.fileexample.databinding.ActivityMainBinding
-import java.io.File
 
 class ShowValueDialog(private val msg: String) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -63,15 +60,11 @@ class MainActivity : AppCompatActivity() {
         binding.buttonReadPref.setOnClickListener {
             ShowValueDialog(pref.getString("key", "") ?: "").show(supportFragmentManager, "ShowValueDialog")
         }
+    }
 
+    override fun onStart() {
+        super.onStart()
         displaySettings()
-
-        // startActivityForResult was deprecated!
-        activityForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == RESULT_OK) {
-                displaySettings()
-            }
-        }
     }
 
     private fun displaySettings() {
@@ -96,8 +89,7 @@ attachment: $attachment
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.settings -> {
-                // startActivityForResult was deprecated!
-                activityForResult.launch(Intent(this, SettingsActivity::class.java))
+                startActivity(Intent(this, SettingsActivity::class.java))
             }
             else -> return super.onOptionsItemSelected(item)
         }
