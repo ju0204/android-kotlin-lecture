@@ -54,7 +54,7 @@ class CheckHW():
         # 서비스 시작, 패키지 이름, 서비스 이름 고정. 절대 다른 것으로 하면 안됨
         package_name = 'com.example.lab9'
         service_name = 'MyService'
-        os.system(f'{adb} shell am start-service -n {package_name}/{package_name}.{service_name} --ei init {initial_value}')
+        os.system(f'{adb} shell am start-foreground-service -n {package_name}/{package_name}.{service_name} --ei init {initial_value}')
         
         time.sleep(2)        
         button.click()
