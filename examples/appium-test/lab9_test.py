@@ -92,7 +92,7 @@ if __name__ == '__main__':
 
     chw = CheckHW(DEF_APP_LOCATION, ANDROID_VERSION)
 
-    r = chw.test_lab9(ADB_LOCATION, 10) # 실습 검사할 때 초기값은 랜덤하게 정함
+    r = chw.test_lab9(ADB_LOCATION, 9999) # 실습 검사할 때 초기값은 랜덤하게 정함
     if r == 'OK':
         score = 100
     else:
