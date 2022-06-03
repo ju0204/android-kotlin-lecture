@@ -97,7 +97,12 @@ class CheckHW():
         self.press_back()
         time.sleep(1)
         
-        tv = self.driver.find_element(AppiumBy.ID, 'textView')
+        try:
+            tv = self.driver.find_element(AppiumBy.ID, 'textView')
+        except:
+            print('TextView의 내용이 Android로 변경되지 않음')
+            return False
+            
         if tv.text != 'Android':
             print('TextView의 내용이 Android로 변경되지 않음')
             return False
