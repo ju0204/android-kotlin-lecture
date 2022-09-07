@@ -180,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, SecondActivity::class.java)
         val pendingIntent = with (TaskStackBuilder.create(this)) {
             addNextIntentWithParentStack(intent)
-            getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
         }
         val builder = NotificationCompat.Builder(this, channelID)
             .setSmallIcon(R.mipmap.ic_launcher)
@@ -197,7 +197,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, TempActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         val pendingIntent = PendingIntent.getActivity(this, 0, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            PendingIntent.FLAG_IMMUTABLE)
         val builder = NotificationCompat.Builder(this, channelID)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("Notification Title")
