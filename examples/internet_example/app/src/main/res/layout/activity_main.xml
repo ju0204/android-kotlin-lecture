@@ -58,7 +58,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/download" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewBy" />
 
     <Button
         android:id="@+id/volley"
@@ -77,5 +77,15 @@
         android:text="Open Download"
         app:layout_constraintBaseline_toBaselineOf="@+id/download"
         app:layout_constraintStart_toEndOf="@+id/download" />
+
+    <TextView
+        android:id="@+id/textViewBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/download" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

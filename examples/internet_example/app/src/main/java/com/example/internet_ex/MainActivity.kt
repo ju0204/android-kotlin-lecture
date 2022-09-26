@@ -28,19 +28,23 @@ import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 import java.io.File
+import java.net.HttpURLConnection
 import java.net.Socket
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
 class MainActivity : AppCompatActivity() {
-    private val serverAddress = "developer.android.com"
-    private lateinit var output: TextView
+    private val serverAddress = "cse.hansung.ac.kr"
+    private val scheme = "http"
+    private lateinit var output : TextView
+    private lateinit var outputBy : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         output = findViewById(R.id.textView)
+        outputBy = findViewById(R.id.textViewBy)
 
         if (isNetworkAvailable())
             Snackbar.make(output, "Network available", Snackbar.LENGTH_SHORT).show()
@@ -79,6 +83,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun javaSocket() {
         output.text = ""
+        outputBy.text = ""
 
         // THIS IS A BAD EXAMPLE. Just for showing that Java Socket API can be used in Android.
         CoroutineScope(Dispatchers.IO).launch {
@@ -90,6 +95,7 @@ class MainActivity : AppCompatActivity() {
             ostream.flush()
             val r = istream.readBytes()
             withContext(Dispatchers.Main) {
+                outputBy.text = "JAVA Socket"
                 output.text = r.decodeToString()
             }
             sock.close()
@@ -98,12 +104,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun httpLib() {
         output.text = ""
+        outputBy.text = ""
 
         CoroutineScope(Dispatchers.IO).launch {
-            val conn = URL("https://$serverAddress").openConnection() as HttpsURLConnection
+            val conn = when(scheme) {
+                "https" -> URL("$scheme://$serverAddress").openConnection() as HttpsURLConnection
+                else -> URL("http://$serverAddress").openConnection() as HttpURLConnection
+                // for http, cleartext without encryption
+                // add android:usesCleartextTraffic="true" in the <application> tag of the Manifest.
+            }
             val istream = conn.inputStream
             val r = istream.readBytes()
             withContext(Dispatchers.Main) {
+                outputBy.text = "HTTP URL Connection"
                 output.text = r.decodeToString()
             }
             conn.disconnect()
@@ -121,9 +134,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun retrofitWithCoroutine() {
         output.text = ""
+        outputBy.text = ""
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://$serverAddress")
+            .baseUrl("$scheme://$serverAddress")
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
 
@@ -137,6 +151,7 @@ class MainActivity : AppCompatActivity() {
                 result = "Failed to connect $serverAddress"
             }
             withContext(Dispatchers.Main) {
+                outputBy.text = "Retrofit with Coroutine"
                 output.text = result
             }
         }
@@ -145,9 +160,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun retrofit() {
         output.text = ""
+        outputBy.text = ""
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://$serverAddress")
+            .baseUrl("$scheme://$serverAddress")
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
 
@@ -155,9 +171,11 @@ class MainActivity : AppCompatActivity() {
 
         api.getRoot().enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: retrofit2.Response<String>) {
+                outputBy.text = "Retrofit"
                 output.text = response.body()
             }
             override fun onFailure(call: Call<String>, t: Throwable) {
+                outputBy.text = "Retrofit"
                 output.text = "Failed to connect $serverAddress"
             }
         })
@@ -165,15 +183,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun volley() {
         output.text = ""
+        outputBy.text = ""
 
         val queue = Volley.newRequestQueue(this)
-        val url = "https://$serverAddress"
+        val url = "$scheme://$serverAddress"
 
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(
             Request.Method.GET, url,
-            { response -> output.text = response },
-            { output.text = "Failed to connect $serverAddress" })
+            { response ->
+                outputBy.text = "Volley"
+                output.text = response },
+            {   outputBy.text = "Volley"
+                output.text = "Failed to connect $serverAddress" })
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest)
