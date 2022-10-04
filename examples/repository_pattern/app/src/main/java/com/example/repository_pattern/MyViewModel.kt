@@ -29,7 +29,7 @@ class MyViewModel(context: Context) : ViewModel() {
 
 
     class Factory(val context: Context) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(MyViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
                 return MyViewModel(context) as T
