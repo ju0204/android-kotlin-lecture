@@ -8,4 +8,8 @@
         <key>cheat_enabled</key>
         <value>false</value>
     </entry>
+    <entry>
+        <key>season</key>
+        <value>fall</value>
+    </entry>
 </defaultsMap>
