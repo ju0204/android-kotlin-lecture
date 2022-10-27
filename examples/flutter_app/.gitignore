@@ -3,6 +3,9 @@ android/
 ios/
 web/
 test/
+linux/
+macos/
+windows/
 .*
 !.gitignore
 pubspec.lock
