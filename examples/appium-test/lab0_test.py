@@ -11,8 +11,8 @@ class CheckHW():
         'platformName': 'Android',
         'platformVersion': '12.0',  # platform version of emulator or device where app will be tested
         'deviceName': 'Android Emulator',
-        'allowTestPackages': 'true',  # add -t flags to adb command when install the app package
-        'enforceAppInstall' : 'true',
+        'allowTestPackages': True,  # add -t flags to adb command when install the app package
+        'enforceAppInstall' : True,
         'uiautomator2ServerInstallTimeout' : 20000,
         'adbExecTimeout' : 20000
     }
@@ -41,8 +41,8 @@ class CheckHW():
 
 if __name__ == '__main__':
     # 테스트할 APK 파일의 위치
-    DEF_APP_LOCATION = r'C:\Users\jyheo\AndroidStudioProjects\MyApplication\app\build\intermediates\apk\debug\app-debug.apk'
-    ANDROID_VERSION = '12.0'
+    DEF_APP_LOCATION = r'C:\Users\jyheo\AndroidStudioProjects\MyApplication\app\build\outputs\apk\debug\app-debug.apk'
+    ANDROID_VERSION = '13'
 
     chw = CheckHW(DEF_APP_LOCATION, ANDROID_VERSION)
     r = chw.test_myapp()
