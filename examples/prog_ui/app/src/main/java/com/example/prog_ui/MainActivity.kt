@@ -2,25 +2,30 @@ package com.example.prog_ui
 
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.prog_ui.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        binding.imageView.scaleType = ImageView.ScaleType.CENTER
+        val appName = resources.getString(R.string.app_name)
+        println(appName)
 
-        binding.button.setOnClickListener {
-            // hide softkeyboard
-            (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(it.windowToken, 0)
+        val imageView = findViewById<ImageView>(R.id.imageView)
+        val button = findViewById<Button>(R.id.button)
+        val radioDog = findViewById<RadioButton>(R.id.radioDog)
+        val radioCat = findViewById<RadioButton>(R.id.radioCat)
+        val textView2 = findViewById<TextView>(R.id.textView2)
+        val editTextTextPersonName = findViewById<EditText>(R.id.editTextTextPersonName)
 
-            val pet = "Dog:${binding.radioDog.isChecked}, Cat:${binding.radioCat.isChecked}"
-            binding.textView2.text = binding.editTextTextPersonName.text
+        imageView.scaleType = ImageView.ScaleType.CENTER
+
+        button.setOnClickListener {
+            val pet = "Dog:${radioDog.isChecked}, Cat:${radioCat.isChecked}"
+            textView2.text = editTextTextPersonName.text
             Snackbar.make(it, pet, Snackbar.LENGTH_SHORT).show()
         }
     }
