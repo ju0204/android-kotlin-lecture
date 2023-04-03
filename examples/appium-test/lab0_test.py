@@ -41,7 +41,7 @@ class CheckHW():
 
 if __name__ == '__main__':
     # 테스트할 APK 파일의 위치
-    DEF_APP_LOCATION = r'C:\Users\jyheo\AndroidStudioProjects\MyApplication\app\build\outputs\apk\debug\app-debug.apk'
+    DEF_APP_LOCATION = r'C:\Users\juh02\AndroidStudioProjects\Test\app\build\outputs\apk\debug'
     ANDROID_VERSION = '13'
 
     chw = CheckHW(DEF_APP_LOCATION, ANDROID_VERSION)
